@@ -1,0 +1,52 @@
+# Gradle
+.gradle/
+build/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+out/
+
+# Eclipse / Buildship
+.classpath
+.project
+.factorypath
+.settings/
+
+# VS Code
+.vscode/
+
+# Trae
+.trae
+
+# Minecraft / Fabric Run
+# This directory contains game data, logs, and local configs
+run/
+skid/
+bin/
+
+# Local protection/config files
+hyd/
+phantomshield.yaml
+
+# OS specific
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Project logs and heap dumps
+*.log
+*.hprof
+build_log.txt
+build_errors.log
+build_final.log
+build_output.log
+build_refresh.log
+compile_debug.log
+
+# Java
+*.class
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+*.war
+*.ear

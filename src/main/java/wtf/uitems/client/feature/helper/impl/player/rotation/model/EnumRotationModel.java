@@ -1,0 +1,35 @@
+package wtf.uitems.client.feature.helper.impl.player.rotation.model;
+
+import wtf.uitems.client.feature.helper.impl.player.rotation.RotationProperty;
+import wtf.uitems.client.feature.helper.impl.player.rotation.model.impl.HeypixelRotationModel;
+import wtf.uitems.client.feature.helper.impl.player.rotation.model.impl.InstantRotationModel;
+import wtf.uitems.client.feature.helper.impl.player.rotation.model.impl.LinearRotationModel;
+import wtf.uitems.client.feature.helper.impl.player.rotation.model.impl.OrganicRotationModel;
+import wtf.uitems.client.feature.helper.impl.player.rotation.model.impl.SidewaysRotationModel;
+
+import java.util.function.Function;
+
+public enum EnumRotationModel {
+    INSTANT("Instant", r -> InstantRotationModel.INSTANCE),
+    LINEAR("Linear", r -> new LinearRotationModel(r.getMaxAngle())),
+    ORGANIC("Organic", r -> new OrganicRotationModel(r.getMaxAngle(), r.getDriftIntensity(), r.getJitterIntensity())),
+    HEYPIXEL("Heypixel", r -> new HeypixelRotationModel(r.getMaxAngle())),
+    SIDEWAYS("Sideways", r -> new SidewaysRotationModel(r.getMaxAngle()));
+
+    private final String name;
+    private final Function<RotationProperty, IRotationModel> modelSupplier;
+
+    EnumRotationModel(String name, Function<RotationProperty, IRotationModel> modelSupplier) {
+        this.name = name;
+        this.modelSupplier = modelSupplier;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+
+    public IRotationModel supply(final RotationProperty property) {
+        return modelSupplier.apply(property);
+    }
+}

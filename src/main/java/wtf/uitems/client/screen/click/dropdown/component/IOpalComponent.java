@@ -1,0 +1,30 @@
+package wtf.uitems.client.screen.click.dropdown.component;
+
+import net.minecraft.client.gui.DrawContext;
+import wtf.uitems.utility.KeyInput;
+
+public interface IOpalComponent {
+
+    default void init() {
+    }
+
+    default void close() {
+    }
+
+    void render(final DrawContext context, final int mouseX, final int mouseY, final float delta);
+
+    void mouseClicked(final double mouseX, final double mouseY, final int button);
+
+    default void mouseScrolled(final double mouseX, final double mouseY, final double horizontalAmount, final double verticalAmount) {
+    }
+
+    default void mouseReleased(final double mouseX, final double mouseY, final int button) {
+    }
+
+    default void keyPressed(KeyInput keyInput) {
+    }
+
+    default void charTyped(char chr, int modifiers) {
+    }
+
+}

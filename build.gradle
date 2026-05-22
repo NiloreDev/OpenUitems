@@ -1,0 +1,107 @@
+plugins {
+	id 'fabric-loom' version '1.14.6'
+	id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+	archivesName = project.archives_base_name
+}
+
+loom {
+    mixin {
+        defaultRefmapName = "uitems.refmap.json"
+    }
+}
+
+repositories {
+	mavenCentral()
+	maven { url 'https://jitpack.io' }
+    maven { url = "https://repo.viaversion.com/everything/"}
+    maven { url = "https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1" }
+    maven { url = "https://maven.lenni0451.net/everything" }
+    maven { url = "https://repo.opencollab.dev/maven-snapshots/" }
+    maven { url = "https://maven.florianreuth.de/snapshots" }
+}
+
+dependencies {
+    include implementation("org.smartboot.socket:aio-core:1.5.38")
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    include implementation("io.github.llamalad7:mixinextras-fabric:0.5.0")
+    annotationProcessor("io.github.llamalad7:mixinextras-fabric:0.5.0")
+
+    // Add other dependencies found in imports
+    // org.freedesktop.dbus
+    include implementation('org.slf4j:slf4j-api:1.7.36')
+    
+    // Hypixel Mod API removed
+
+    // GraalVM - Removed
+    // implementation 'org.graalvm.sdk:graalvm-sdk:24.0.0'
+    // implementation 'org.graalvm.js:js:24.0.0'
+
+    // NanoVG
+    include implementation('org.lwjgl:lwjgl-nanovg:3.3.3')
+    include runtimeOnly('org.lwjgl:lwjgl-nanovg:3.3.3:natives-windows')
+    include runtimeOnly('org.lwjgl:lwjgl-nanovg:3.3.3:natives-linux')
+    include runtimeOnly('org.lwjgl:lwjgl-nanovg:3.3.3:natives-macos')
+
+    // Java Keyring
+    include implementation('com.github.javakeyring:java-keyring:1.0.4')
+
+    // DBus
+    include implementation('com.github.hypfvieh:dbus-java-core:4.3.1')
+    include implementation('com.github.hypfvieh:dbus-java-transport-native-unixsocket:4.3.1')
+    include implementation('com.github.hypfvieh:dbus-java-transport-tcp:4.3.1')
+    include implementation('com.github.hypfvieh:dbus-java-utils:4.3.1')
+    // 棰濆鐨勫繀闇€浼犻€掍緷璧?(浠?Maven Central 鑾峰彇)
+    include implementation('com.github.jnr:jnr-unixsocket:0.38.22')
+    include implementation('com.github.jnr:jnr-ffi:2.2.16')
+    include implementation('com.github.jnr:jnr-posix:3.1.19')
+    include implementation('com.github.jnr:jnr-constants:0.10.4')
+    include implementation('com.github.jnr:jnr-x86asm:1.0.2')
+
+    compileOnly("org.projectlombok:lombok:1.18.44")
+    annotationProcessor("org.projectlombok:lombok:1.18.44")
+
+    modRuntimeOnly("com.viaversion:viafabricplus:4.3.6")
+    modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.2.2")
+}
+
+processResources {
+	inputs.property "version", project.version
+
+	filesMatching("fabric.mod.json") {
+		expand "version": project.version
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 21
+}
+
+java {
+	withSourcesJar()
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
+}
+
+jar {
+	from("LICENSE") {
+		rename { "${it}_${project.base.archivesName.get()}" }
+	}
+}
+
+tasks.register('extractRuntimeClasspath', Copy) {//这行gradle任务可以导出编译时所有用到的jar出来
+    from configurations.runtimeClasspath
+    into "$buildDir/runtimeClasspath"
+}
+
+
+
+

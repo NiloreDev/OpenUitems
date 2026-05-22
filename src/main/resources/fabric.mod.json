@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "uitems",
+  "version": "1.3",
+  "name": "Uitems",
+  "description": "Uitems Client",
+  "authors": [
+    "yufei233"
+  ],
+  "contact": {},
+  "license": "Proprietary",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "wtf.uitems.UitemsFabric"
+    ]
+  },
+  "mixins": [
+    "uitems.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.18.1",
+    "minecraft": "~1.21.10",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
